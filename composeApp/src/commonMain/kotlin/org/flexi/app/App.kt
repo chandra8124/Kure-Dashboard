@@ -53,7 +53,7 @@ import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.navigation.sidebar.SidebarMenu
 import org.flexi.app.presentation.ui.screens.favourite.FavouriteScreen
 import org.flexi.app.presentation.ui.screens.home.HomeScreen
-import org.flexi.app.presentation.ui.screens.order.MyOrdersContent
+import org.flexi.app.presentation.ui.screens.payroll.MyOrdersContent
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.profile.ProfileScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
@@ -90,18 +90,19 @@ fun AppContent() {
     val isDark by LocalThemeIsDark.current
     val items = listOf(
         NavigationItem(
-            title = "Claims",
-            selectedIcon = Icons.Default.Home,
-            unselectedIcon = Icons.Outlined.Home,
-            hasNews = false
-        ),
-        NavigationItem(
             title = "Payroll",
             selectedIcon = Icons.Default.DeliveryDining,
             unselectedIcon = Icons.Outlined.DeliveryDining,
             hasNews = true,
             badgeCount = 0
         ),
+        NavigationItem(
+            title = "Claims",
+            selectedIcon = Icons.Default.Home,
+            unselectedIcon = Icons.Outlined.Home,
+            hasNews = false
+        ),
+
         NavigationItem(
             title = "Incidents",
             selectedIcon = Icons.Default.Favorite,
@@ -171,8 +172,8 @@ fun AppContent() {
                     .padding(start = if (showNavigationRail) 0.dp else 0.dp)
             ) {
                 when (selectedItemIndex) {
-                    0 -> Navigator(HomeScreen())
-                    1 -> Navigator(MyOrdersContent())
+                    0 -> Navigator(MyOrdersContent())
+                    1 -> Navigator(HomeScreen())
                     2 -> Navigator(FavouriteScreen())
                     3 -> Navigator(ProfileScreen())
                 }

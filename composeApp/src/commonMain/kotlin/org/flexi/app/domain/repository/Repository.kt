@@ -5,6 +5,7 @@ import org.flexi.app.data.repository.FlexiApi
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
 
 class Repository : FlexiApi {
@@ -23,6 +24,9 @@ class Repository : FlexiApi {
     }
     override suspend fun patientEmSallData(): PatientEmSallData {
         return FlexiApiClient.patientEmSallData()
+    }
+    override suspend fun payrollSalaryListing(): PayrollSalaryListing {
+        return FlexiApiClient.payrollSalaryListing()
     }
 //
 //    override suspend fun signupUser(username: String, email: String, password: String): String {

@@ -71,7 +71,7 @@ import org.flexi.app.presentation.ui.components.ErrorBox
 import org.flexi.app.presentation.ui.components.PaymentProductList
 import org.flexi.app.presentation.ui.screens.cart.model.ProductDetails
 import org.flexi.app.presentation.ui.screens.home.HomeScreen
-import org.flexi.app.presentation.ui.screens.order.MyPaymentOrderScreen
+import org.flexi.app.presentation.ui.screens.payroll.MyPaymentOrderScreen
 import org.flexi.app.presentation.ui.screens.payment.model.Order
 import org.flexi.app.presentation.ui.screens.payment.model.PaymentMethodType
 import org.flexi.app.presentation.viewmodels.MainViewModel

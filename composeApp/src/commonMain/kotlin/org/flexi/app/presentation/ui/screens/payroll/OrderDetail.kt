@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.order
+package org.flexi.app.presentation.ui.screens.payroll
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing

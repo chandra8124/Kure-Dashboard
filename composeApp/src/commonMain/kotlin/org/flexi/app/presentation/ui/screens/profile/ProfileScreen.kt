@@ -70,8 +70,8 @@ import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.ErrorBox
-import org.flexi.app.presentation.ui.screens.order.MyProfileOrders
-import org.flexi.app.presentation.ui.screens.order.MyProfileWishList
+import org.flexi.app.presentation.ui.screens.payroll.MyProfileOrders
+import org.flexi.app.presentation.ui.screens.payroll.MyProfileWishList
 import org.flexi.app.presentation.ui.screens.setting.SettingScreen
 import org.flexi.app.presentation.ui.screens.setting.support.SupportScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel

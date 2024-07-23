@@ -10,6 +10,7 @@ import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
@@ -45,6 +46,9 @@ class MainViewModel(
 
     private val _patientEmSall = MutableStateFlow<ResultState<PatientEmSallData>>(ResultState.Loading)
     val patientEmSall: StateFlow<ResultState<PatientEmSallData>> = _patientEmSall.asStateFlow()
+
+    private val _payrollSalary = MutableStateFlow<ResultState<PayrollSalaryListing>>(ResultState.Loading)
+    val payrollSalary: StateFlow<ResultState<PayrollSalaryListing>> = _payrollSalary.asStateFlow()
 
     private val _promotions =
         MutableStateFlow<ResultState<List<PromotionsProductsItem>>>(ResultState.Loading)
@@ -190,6 +194,18 @@ class MainViewModel(
                 _patientEmSall.value = ResultState.Success(response)
             } catch (e: Exception) {
                 _patientEmSall.value = ResultState.Error(e)
+            }
+        }
+    }
+
+    fun payrollSalaryListing() {
+        viewModelScope.launch {
+            _payrollSalary.value = ResultState.Loading
+            try {
+                val response = repository.payrollSalaryListing()
+                _payrollSalary.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _payrollSalary.value = ResultState.Error(e)
             }
         }
     }

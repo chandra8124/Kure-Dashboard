@@ -17,6 +17,7 @@ import kotlinx.serialization.json.Json
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
 import org.flexi.app.utils.Constant.BASE_URL
 import org.flexi.app.utils.Constant.BASE_URL_NODE
@@ -320,6 +321,22 @@ object FlexiApiClient {
                 )
             }
             body ="{\"params\":{\"claimStatus\":[\"ADDTOCLAIMQUEUE\"],\"insuranceType\":\"All\"}}"
+        }.body()
+    }
+
+    @OptIn(InternalAPI::class)
+    suspend fun payrollSalaryListing(): PayrollSalaryListing {
+        val url = BASE_URL + "api/v0.1/payroll/salary/listing"
+
+        return client.post(url) {
+            headers {
+                append(HttpHeaders.ContentType, ContentType.Application.Json.toString())
+                append(
+                    "Authorization",
+                    "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MTc3Nzc3NzAyNTUiLCJhdWRpZW5jZSI6IndlYiIsInRva2VuVHlwZSI6IlVzZXIiLCJpYXQiOjE3MjExMzM3MTEsImV4cCI6MTcyMTczODUxMX0.JQYXbI2KI4-h19VY8k7QCS_upFAf1DPweFiV6iJbemU"
+                )
+            }
+            body ="{\"startDate\":\"2023-07-16\",\"endDate\":\"2024-07-13\",\"params\":{}}"
         }.body()
     }
 }

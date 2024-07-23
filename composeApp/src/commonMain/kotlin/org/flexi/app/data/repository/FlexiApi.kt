@@ -3,6 +3,7 @@ package org.flexi.app.data.repository
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
 import org.koin.core.annotation.Single
 
@@ -13,4 +14,5 @@ interface FlexiApi {
     suspend fun summaryTable(): SummaryTableModel
     suspend fun claimStatus(): ClaimStatusModel
     suspend fun patientEmSallData(): PatientEmSallData
+    suspend fun payrollSalaryListing(): PayrollSalaryListing
 }

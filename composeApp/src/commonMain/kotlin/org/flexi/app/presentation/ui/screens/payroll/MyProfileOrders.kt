@@ -1,4 +1,4 @@
-package org.flexi.app.presentation.ui.screens.order
+package org.flexi.app.presentation.ui.screens.payroll
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -176,7 +176,9 @@ class MyProfileOrders(
                                     items(orders) { order ->
                                         val product =
                                             productList?.find { it.id == order.productIds }
-                                        product?.let { MyOrderItems(it, order) }
+                                        product?.let {
+                                            //MyOrderItems(it, order)
+                                        }
                                     }
                                 }
                             }
@@ -220,7 +222,8 @@ class MyProfileOrders(
                                     items(orders) { order ->
                                         val product =
                                             productList?.find { it.id == order.productIds }
-                                        product?.let { MyOrderItems(it, order) }
+                                        product?.let { //MyOrderItems(it, order)
+                                        }
                                     }
                                 }
                             }
@@ -264,7 +267,8 @@ class MyProfileOrders(
                                     items(orders) { order ->
                                         val product =
                                             productList?.find { it.id == order.productIds }
-                                        product?.let { MyOrderItems(it, order) }
+                                        product?.let { //MyOrderItems(it, order)
+                                        }
                                     }
                                 }
                             }
@@ -308,7 +312,8 @@ class MyProfileOrders(
                                     items(orders) { order ->
                                         val product =
                                             productList?.find { it.id == order.productIds }
-                                        product?.let { MyOrderItems(it, order) }
+                                        product?.let {// MyOrderItems(it, order)
+                                        }
                                     }
                                 }
                             }
