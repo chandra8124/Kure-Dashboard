@@ -47,14 +47,17 @@ import app.cash.sqldelight.db.SqlDriver
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.LocalTabNavigator
 import cafe.adriel.voyager.navigator.tab.Tab
+import io.github.jan.supabase.gotrue.auth
 import kotlinx.coroutines.delay
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.version.Platform
 import org.flexi.app.presentation.ui.navigation.rails.items.NavigationItem
 import org.flexi.app.presentation.ui.navigation.sidebar.SidebarMenu
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.ui.screens.favourite.FavouriteScreen
 import org.flexi.app.presentation.ui.screens.home.HomeScreen
-import org.flexi.app.presentation.ui.screens.payroll.MyOrdersContent
 import org.flexi.app.presentation.ui.screens.payment.model.Order
+import org.flexi.app.presentation.ui.screens.payroll.PayrollSalary
 import org.flexi.app.presentation.ui.screens.profile.ProfileScreen
 import org.flexi.app.presentation.ui.screens.splash.SplashScreen
 import org.flexi.app.theme.AppTheme
@@ -64,9 +67,9 @@ import org.flexi.app.theme.LocalThemeIsDark
 internal fun App() = AppTheme {
     val platform = getPlatform()
     var showSplashScreen by remember { mutableStateOf(true) }
-//    val user =
-//        FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-//    val userEmail = user?.user?.email
+    val user =
+        FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
+    val userEmail = user?.user?.email
     LaunchedEffect(Unit) {
         delay(3000)
         showSplashScreen = false
@@ -172,10 +175,10 @@ fun AppContent() {
                     .padding(start = if (showNavigationRail) 0.dp else 0.dp)
             ) {
                 when (selectedItemIndex) {
-                    0 -> Navigator(MyOrdersContent())
                     1 -> Navigator(HomeScreen())
+                    0 -> Navigator(PayrollSalary())
                     2 -> Navigator(FavouriteScreen())
-                    3 -> Navigator(ProfileScreen())
+                    3 -> Navigator(LoginScreen())
                 }
             }
         }

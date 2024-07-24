@@ -19,7 +19,7 @@ fun ErrorBox(
     ) {
         SelectionContainer {
             Text(
-                text = error.toString(),
+                text = error.message?:"",
                 color = Color.Red
             )
         }

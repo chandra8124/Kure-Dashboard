@@ -223,9 +223,9 @@ class SettingScreen(
                 }
                 Spacer(modifier = Modifier.height(24.dp))
                 val loginText = if (user?.email?.isEmpty() == true) {
-                    "Login"
-                } else {
                     "Logout"
+                } else {
+                    "Login"
                 }
                 Button(
                     onClick = {

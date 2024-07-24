@@ -5,14 +5,19 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.domain.model.books.BooksItem
 import org.flexi.app.domain.model.category.Categories
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
+import org.flexi.app.domain.model.contested_pay_change.ContestedPayChanges
+import org.flexi.app.domain.model.login.LoginResponse
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payPeriod.PayPeriod
 import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
 import org.flexi.app.domain.model.products.Products
 import org.flexi.app.domain.model.promotions.PromotionsProductsItem
+import org.flexi.app.domain.model.setUpFieldList.SetUpFieldList
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
 import org.flexi.app.domain.model.user.User
 import org.flexi.app.domain.repository.Repository
@@ -25,8 +30,8 @@ class MainViewModel(
     private val repository: Repository,
 ) : ViewModel() {
 
-    private val _login = MutableStateFlow<ResultState<String>>(ResultState.Loading)
-    val login: StateFlow<ResultState<String>> = _login.asStateFlow()
+//    private val _login = MutableStateFlow<ResultState<String>>(ResultState.Loading)
+//    val login: StateFlow<ResultState<String>> = _login.asStateFlow()
 
     private val _signup = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val signup = _signup.asStateFlow()
@@ -50,21 +55,17 @@ class MainViewModel(
     private val _payrollSalary = MutableStateFlow<ResultState<PayrollSalaryListing>>(ResultState.Loading)
     val payrollSalary: StateFlow<ResultState<PayrollSalaryListing>> = _payrollSalary.asStateFlow()
 
-    private val _promotions =
-        MutableStateFlow<ResultState<List<PromotionsProductsItem>>>(ResultState.Loading)
-    val promotions: StateFlow<ResultState<List<PromotionsProductsItem>>> = _promotions.asStateFlow()
+    private val _setUpFieldListData = MutableStateFlow<ResultState<SetUpFieldList>>(ResultState.Loading)
+    val setUpFieldListData: StateFlow<ResultState<SetUpFieldList>> = _setUpFieldListData.asStateFlow()
 
-    private val _categories = MutableStateFlow<ResultState<List<Categories>>>(ResultState.Loading)
-    val categories: StateFlow<ResultState<List<Categories>>> = _categories.asStateFlow()
+    private val _contestedPayChangesData = MutableStateFlow<ResultState<ContestedPayChanges>>(ResultState.Loading)
+    val contestedPayChangesData: StateFlow<ResultState<ContestedPayChanges>> = _contestedPayChangesData.asStateFlow()
 
     private val _books = MutableStateFlow<ResultState<List<BooksItem>>>(ResultState.Loading)
     val books: StateFlow<ResultState<List<BooksItem>>> = _books.asStateFlow()
 
     private val _productItem = MutableStateFlow<ResultState<List<Products>>>(ResultState.Loading)
     val productItem: StateFlow<ResultState<List<Products>>> = _productItem.asStateFlow()
-
-    private val _deleteItem = MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
-    val deleteItem: StateFlow<ResultState<Boolean>> = _deleteItem.asStateFlow()
 
     private val _userData = MutableStateFlow<ResultState<User>>(ResultState.Loading)
     val userData: StateFlow<ResultState<User>> = _userData.asStateFlow()
@@ -90,14 +91,14 @@ class MainViewModel(
     private val _signupUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val signupUser: StateFlow<ResultState<String>> = _signupUser.asStateFlow()
 
-    private val _loginUser = MutableStateFlow<ResultState<String>>(ResultState.Loading)
-    val loginUser: StateFlow<ResultState<String>> = _loginUser.asStateFlow()
+    private val _loginUser = MutableStateFlow<ResultState<LoginResponse>>(ResultState.Loading)
+    val loginUser: StateFlow<ResultState<LoginResponse>> = _loginUser.asStateFlow()
 
     private val _logOut = MutableStateFlow<ResultState<String>>(ResultState.Loading)
     val logOut: StateFlow<ResultState<String>> = _logOut.asStateFlow()
 
-    private val _loginWithGoogle = MutableStateFlow<ResultState<String>>(ResultState.Loading)
-    val loginWithGoogle: StateFlow<ResultState<String>> = _loginWithGoogle.asStateFlow()
+    private val _payPeriodData = MutableStateFlow<ResultState<PayPeriod>>(ResultState.Loading)
+    val payPeriodData: StateFlow<ResultState<PayPeriod>> = _payPeriodData.asStateFlow()
 
 
     fun logout(){
@@ -112,17 +113,15 @@ class MainViewModel(
         }
     }
     fun login(
-        userEmail: String,
+        mobileNumber: String,
         userPassword: String
     ){
         viewModelScope.launch {
             _loginUser.value = ResultState.Loading
             try {
-//                FlexiApiClient.supaBaseClient.auth.signInWith(Email){
-//                    email = userEmail
-//                    password = userPassword
-//                }
-                _loginUser.value = ResultState.Success("Login Successfully...")
+                val response = repository.loginUser(mobileNumber, password = userPassword)
+                _loginUser.value = ResultState.Success(response)
+               // _loginUser.value = ResultState.Success("Login Successfully...")
             }catch (e: Exception){
                 _loginUser.value = ResultState.Error(e)
             }
@@ -206,6 +205,40 @@ class MainViewModel(
                 _payrollSalary.value = ResultState.Success(response)
             } catch (e: Exception) {
                 _payrollSalary.value = ResultState.Error(e)
+            }
+        }
+    }
+    fun setUpFieldList() {
+        viewModelScope.launch {
+            _setUpFieldListData.value = ResultState.Loading
+            try {
+                val response = repository.setUpFieldList()
+                _setUpFieldListData.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _setUpFieldListData.value = ResultState.Error(e)
+            }
+        }
+    }
+
+    fun contestedPayChanges() {
+        viewModelScope.launch {
+            _contestedPayChangesData.value = ResultState.Loading
+            try {
+                val response = repository.contestedPayChanges()
+                _contestedPayChangesData.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _contestedPayChangesData.value = ResultState.Error(e)
+            }
+        }
+    }
+    fun payPeriod() {
+        viewModelScope.launch {
+            _payPeriodData.value = ResultState.Loading
+            try {
+                val response = repository.payPeriod()
+                _payPeriodData.value = ResultState.Success(response)
+            } catch (e: Exception) {
+                _payPeriodData.value = ResultState.Error(e)
             }
         }
     }

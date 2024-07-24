@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
+import androidx.compose.material.icons.outlined.Phone
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -38,9 +39,13 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import io.github.jan.supabase.annotations.SupabaseExperimental
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.flexi.app.data.remote.FlexiApiClient
+import org.flexi.app.domain.model.login.LoginResponse
+import org.flexi.app.domain.model.login.LoginResponseData
 import org.flexi.app.domain.usecase.ResultState
 import org.flexi.app.presentation.ui.components.CustomTextField
 import org.flexi.app.presentation.ui.components.ErrorBox
+import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
 import org.flexi.app.presentation.ui.screens.auth.signup.SignupScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.utils.SignupValidation
@@ -54,36 +59,36 @@ class LoginScreen : Screen {
         val viewModel: MainViewModel = koinInject<MainViewModel>()
         val navigator = LocalNavigator.current
         val scope = rememberCoroutineScope()
-        var email by remember { mutableStateOf("") }
+        var mobileNumber by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         var emailError by remember { mutableStateOf<String?>(null) }
         var passwordError by remember { mutableStateOf<String?>(null) }
-        var loginResponse by remember { mutableStateOf("") }
+        var loginResponse by remember { mutableStateOf<LoginResponse?>(null) }
         var isLoading by remember { mutableStateOf(false) }
-        val state by viewModel.login.collectAsState()
+        //val state by viewModel.login.collectAsState()
 
 //        val action = FlexiApiClient.supaBaseClient.composeAuth.rememberSignInWithApple(
 //            onResult = { result -> viewModel.loginGoogle(result) },
 //            fallback = {}
 //        )
-        when (state) {
-            is ResultState.Error -> {
-                val error = (state as ResultState.Error).error
-                ErrorBox(error)
-                isLoading = false
-            }
-
-            is ResultState.Loading -> {
-
-            }
-
-            is ResultState.Success -> {
-                val response = (state as ResultState.Success).response
-                loginResponse = response
-                isLoading = false
-            }
-        }
+//        when (state) {
+//            is ResultState.Error -> {
+//                val error = (state as ResultState.Error).error
+//                ErrorBox(error)
+//                isLoading = false
+//            }
+//
+//            is ResultState.Loading -> {
+//
+//            }
+//
+//            is ResultState.Success -> {
+//                val response = (state as ResultState.Success).response
+//                loginResponse = response.
+//                isLoading = false
+//            }
+//        }
 
         val loginState by viewModel.loginUser.collectAsState()
 
@@ -123,14 +128,14 @@ class LoginScreen : Screen {
             )
             Spacer(modifier = Modifier.height(14.dp))
             CustomTextField(
-                input = email,
-                label = "Email",
+                input = mobileNumber,
+                label = "Mobile Number",
                 onValueChange = {
-                    email = it
-                    emailError = SignupValidation.validateEmail(it)
+                    mobileNumber = it
+                    emailError = SignupValidation.validateUsername(it)
                 },
                 isError = emailError != null,
-                leadingIcon = Icons.Outlined.Email,
+                leadingIcon = Icons.Outlined.Phone,
                 isPasswordVisible = true
             )
             Spacer(modifier = Modifier.height(6.dp))
@@ -157,8 +162,8 @@ class LoginScreen : Screen {
                     onClick = {
                         if (emailError == null && passwordError == null) {
                             isLoading = true
-                           // viewModel.login(userEmail = email, userPassword = password)
-                           // viewModel.loginUser(email, password)
+                            viewModel.login(mobileNumber = mobileNumber, userPassword = password)
+                            //viewModel.loginUser(email, password)
                         }
                     },
                     colors = ButtonDefaults.buttonColors(
@@ -179,11 +184,11 @@ class LoginScreen : Screen {
                     }
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "or using other method",
-                    fontSize = 10.sp,
-                    color = Color.Gray
-                )
+//                Text(
+//                    "or using other method",
+//                    fontSize = 10.sp,
+//                    color = Color.Gray
+//                )
                 Spacer(modifier = Modifier.height(6.dp))
 //                OutlinedButton(onClick = { action.startFlow() }) {
 //                    ProviderButtonContent(Google)
@@ -193,15 +198,15 @@ class LoginScreen : Screen {
 //                    ProviderButtonContent(Apple)
 //                }
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    "don't have account! Signup",
-                    fontSize = 10.sp,
-                    color = Color.Gray,
-                    modifier = Modifier.clickable {
-                        navigator?.push(SignupScreen())
-                    }
-                )
-                if (loginResponse.contains("Login Successful")) {
+//                Text(
+//                    "don't have account! Signup",
+//                    fontSize = 10.sp,
+//                    color = Color.Gray,
+//                    modifier = Modifier.clickable {
+//                        navigator?.push(SignupScreen())
+//                    }
+//                )
+                if (loginResponse?.status == true) {
                     Text(
                         text = "Login Successful",
                         fontSize = 10.sp,
@@ -209,23 +214,20 @@ class LoginScreen : Screen {
                     )
                     scope.launch {
                         delay(500.milliseconds)
-                        if (loginResponse.contains("Invalid Email or Password")) {
+                        if (loginResponse?.status == false) {
                             isLoading = false
                             return@launch
                         } else {
-                            email = ""
+                           // mobileNumber = ""
                             password = ""
-                            loginResponse = ""
+                            loginResponse = null
                             isLoading = false
-                           // val user =
-                               // FlexiApiClient.supaBaseClient.auth.currentSessionOrNull()
-                          //  val userEmail = user?.user?.email
-                           // navigator?.push(MainScreen(userEmail = userEmail))
+                            navigator?.push(MainScreen(mobileNumber = mobileNumber))
                         }
                     }
                 } else {
                     Text(
-                        text = loginResponse,
+                        text = loginResponse?.message?:"",
                         fontSize = 10.sp,
                         color = Color.Red,
                     )

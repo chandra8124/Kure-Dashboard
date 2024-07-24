@@ -10,12 +10,11 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
-import org.flexi.app.presentation.ui.screens.payroll.MyOrdersContent
 
 object MyOrders: Tab {
     @Composable
     override fun Content() {
-        Navigator(MyOrdersContent())
+       // Navigator(MyOrdersContent())
     }
 
     override val options: TabOptions

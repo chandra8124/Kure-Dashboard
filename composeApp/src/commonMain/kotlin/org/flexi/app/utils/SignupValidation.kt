@@ -2,8 +2,8 @@ package org.flexi.app.utils
 
 object SignupValidation {
     fun validateUsername(username: String): String?{
-        return if (username.length < 6){
-            "Username should be at least 6 characters Long"
+        return if (username.length < 10){
+            "Username should be at least 10 characters Long"
         }else{
             null
         }
@@ -18,7 +18,7 @@ object SignupValidation {
     }
 
     fun validatePassword(password: String): String? {
-        return if (password.length < 8 || !password.contains(Regex(".*[A-Z].*")) || !password.contains(Regex(".*[^A-Za-z0-9].*"))) {
+        return if (password.length < 5 || !password.contains(Regex(".*[A-Z].*")) || !password.contains(Regex(".*[^A-Za-z0-9].*"))) {
             "Password should be at least 8 characters long and contain at least one uppercase letter and one special character"
         } else {
             null

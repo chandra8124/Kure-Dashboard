@@ -49,6 +49,8 @@ import org.flexi.app.presentation.ui.components.LoadingBox
 import org.flexi.app.presentation.ui.components.ProductList
 import org.flexi.app.presentation.ui.components.SummaryTableUI
 import org.flexi.app.presentation.ui.components.TopAppBarWithProfile
+import org.flexi.app.presentation.ui.navigation.tabs.main.MainScreen
+import org.flexi.app.presentation.ui.screens.auth.login.LoginScreen
 import org.flexi.app.presentation.viewmodels.MainViewModel
 import org.flexi.app.theme.LocalThemeIsDark
 import org.koin.compose.koinInject
@@ -186,10 +188,7 @@ class HomeScreen : Screen {
                 TopAppBarWithProfile(
                     name = "Chandra Singh",
                     onCartClicked = {
-//                            cartItemList?.let { carts ->
-//                                val mutableCartsList = carts.toMutableList()
-//                                navigator?.push(CartList(mutableCartsList))
-//                            }
+                        navigator?.push(LoginScreen())
                     },
                     profileImageUrl = "",
                     itemCount = 5,

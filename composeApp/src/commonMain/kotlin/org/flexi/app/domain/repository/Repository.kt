@@ -4,14 +4,18 @@ import org.flexi.app.data.remote.FlexiApiClient
 import org.flexi.app.data.repository.FlexiApi
 import org.flexi.app.domain.model.claim.ClaimModel
 import org.flexi.app.domain.model.claimStatus.ClaimStatusModel
+import org.flexi.app.domain.model.contested_pay_change.ContestedPayChanges
+import org.flexi.app.domain.model.login.LoginResponse
 import org.flexi.app.domain.model.patientemsalldata.PatientEmSallData
+import org.flexi.app.domain.model.payPeriod.PayPeriod
 import org.flexi.app.domain.model.payrollSalaryListing.PayrollSalaryListing
+import org.flexi.app.domain.model.setUpFieldList.SetUpFieldList
 import org.flexi.app.domain.model.summaryTable.SummaryTableModel
 
 class Repository : FlexiApi {
-//    override suspend fun loginUser(email: String, password: String): String {
-//        return FlexiApiClient.loginUser(email, password)
-//    }
+    override suspend fun loginUser(email: String, password: String): LoginResponse {
+        return FlexiApiClient.loginUser(email, password)
+    }
 
     override suspend fun claimData(): ClaimModel {
         return FlexiApiClient.claimData()
@@ -27,6 +31,15 @@ class Repository : FlexiApi {
     }
     override suspend fun payrollSalaryListing(): PayrollSalaryListing {
         return FlexiApiClient.payrollSalaryListing()
+    }
+    override suspend fun setUpFieldList(): SetUpFieldList {
+        return FlexiApiClient.setUpFieldList()
+    }
+    override suspend fun contestedPayChanges(): ContestedPayChanges {
+        return FlexiApiClient.contestedPayChanges()
+    }
+    override suspend fun payPeriod(): PayPeriod {
+        return FlexiApiClient.payPeriod()
     }
 //
 //    override suspend fun signupUser(username: String, email: String, password: String): String {
